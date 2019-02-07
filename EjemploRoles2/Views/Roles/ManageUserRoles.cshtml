@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Administrar";
+}
+
+<h2>Administrar roles de usuarios</h2>
+@Html.ActionLink("Listado de roles", "Index") | @Html.ActionLink("Crear nuevo rol", "Create")
+<hr />
+
+<h2>Añadir rol a usuario</h2>
+
+@using (Html.BeginForm("RoleAddToUser", "Roles"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <p>
+        Nombre de usuario : @Html.TextBox("UserName")
+        Nombre de rol: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...")
+
+    </p>
+
+    <input type="submit" value="Guardar" />
+}
+<hr />
+<h3>Listar roles de usuario</h3>
+@using (Html.BeginForm("GetRoles", "Roles"))
+{
+    @Html.AntiForgeryToken()
+    <p>
+        Nombre de usuario : @Html.TextBox("UserName")
+        <input type="submit" value="Obtener roles de este usuario" />
+    </p>
+}
+
+@if (ViewBag.RolesForThisUser != null)
+{
+    <div style="background-color:yellow;">
+        <h3>Roles de usuario </h3>
+        <ol>
+            @foreach (string s in ViewBag.RolesForThisUser)
+            {
+                <li>@s</li>
+            }
+        </ol>
+    </div>
+}
+
+<hr />
+<h3>Eliminar rol de usuario</h3>
+
+@using (Html.BeginForm("DeleteRoleForUser", "Roles"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <p>
+        Nombre de usuario : @Html.TextBox("UserName")
+        Nombre de rol: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...")
+
+    </p>
+
+    <input type="submit" value="Eliminar rol de este usuario" />
+}
